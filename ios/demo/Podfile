@@ -1,0 +1,12 @@
+source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'
+platform :ios, '8.0'
+use_frameworks!
+
+def weex 
+	pod 'WeexSDK', '~> 0.9.5'
+    pod 'SDWebImage', '~> 3.8'
+end
+
+target 'demo' do 
+   weex
+end
