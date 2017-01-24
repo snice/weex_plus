@@ -11,7 +11,7 @@ import WeexSDK
 
 class ViewController: UIViewController {
 
-    let url:String = "https://www.zhuzhe.wang/examples/build/vue/index.js";
+    let url:String = "https://www.zhuzhe.wang/examples/mobile/index.js";
     var instance: WXSDKInstance?
     var wee:UIView?
     override func viewDidLoad() {
