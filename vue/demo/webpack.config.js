@@ -78,7 +78,7 @@ function getBaseConfig() {
             //   }
             // })]
         },
-        plugins: [bannerPlugin, uglifyPlugin]
+        plugins: [bannerPlugin]
     }
 }
 
