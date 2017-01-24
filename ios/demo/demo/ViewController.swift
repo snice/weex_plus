@@ -18,7 +18,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.title = "WeexPlus示例";
         self.view.backgroundColor = UIColor.white;
-        let refreshItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonSystemItem.refresh, target: self, action: #selector(self.refreshAction(sender:)));
+        let refreshItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonSystemItem.search, target: self, action: #selector(self.refreshAction(sender:)));
         self.navigationItem.rightBarButtonItems = [refreshItem];
         instance = WXSDKInstance();
         instance?.viewController = self;
@@ -36,7 +36,8 @@ class ViewController: UIViewController {
         self.wee?.subviews[0].subviews[0].backgroundColor = UIColor.green
     }
     func refreshAction(sender: UIBarButtonItem){
-        instance?.render(with: URL(string: url), options: ["bundleUrl":url], data: nil)
+//        instance?.render(with: URL(string: url), options: ["bundleUrl":url], data: nil)
+        self.navigationController?.pushViewController(ScanViewController(), animated: true)
     }
     
     override func didReceiveMemoryWarning() {
