@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		50FCE180D3645D40AB36B0E1 /* Pods_demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C98138ECA3E940A2AD6B12B /* Pods_demo.framework */; };
+		5D0F6A561E375F3A0091DDF3 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0F6A551E375F3A0091DDF3 /* ScanViewController.swift */; };
 		5D1F07C41E3720E400B8E3F5 /* WXImgLoaderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1F07C31E3720E400B8E3F5 /* WXImgLoaderHandler.swift */; };
 		5D1F07C61E37214A00B8E3F5 /* WXEventModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1F07C51E37214A00B8E3F5 /* WXEventModule.swift */; };
 		5D1F07C81E37230E00B8E3F5 /* WeexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1F07C71E37230E00B8E3F5 /* WeexViewController.swift */; };
@@ -21,6 +22,7 @@
 /* Begin PBXFileReference section */
 		1C98138ECA3E940A2AD6B12B /* Pods_demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		503288205F88D67A02EB438A /* Pods-demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-demo/Pods-demo.debug.xcconfig"; sourceTree = "<group>"; };
+		5D0F6A551E375F3A0091DDF3 /* ScanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
 		5D1F07C31E3720E400B8E3F5 /* WXImgLoaderHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WXImgLoaderHandler.swift; sourceTree = "<group>"; };
 		5D1F07C51E37214A00B8E3F5 /* WXEventModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WXEventModule.swift; sourceTree = "<group>"; };
 		5D1F07C71E37230E00B8E3F5 /* WeexViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeexViewController.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				5DF30D2C1E36F4E900BA896F /* LaunchScreen.storyboard */,
 				5DF30D2F1E36F4E900BA896F /* Info.plist */,
 				5D1F07C71E37230E00B8E3F5 /* WeexViewController.swift */,
+				5D0F6A551E375F3A0091DDF3 /* ScanViewController.swift */,
 			);
 			path = demo;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 				5D1F07C61E37214A00B8E3F5 /* WXEventModule.swift in Sources */,
 				5DF30D241E36F4E900BA896F /* AppDelegate.swift in Sources */,
 				5D1F07C41E3720E400B8E3F5 /* WXImgLoaderHandler.swift in Sources */,
+				5D0F6A561E375F3A0091DDF3 /* ScanViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -67,5 +67,6 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         Intent intent = new Intent(WEEX_ACTION, uri);
         intent.addCategory(WEEX_CATEGORY);
         startActivity(intent);
+        finish();
     }
 }
