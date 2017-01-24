@@ -1,4 +1,4 @@
-package com.snicecool.weexdemo;
+package com.taobao.weex.plus;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -33,7 +33,6 @@ import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.appfram.navigator.IActivityNavBarSetter;
 import com.taobao.weex.common.IWXDebugProxy;
 import com.taobao.weex.common.WXRenderStrategy;
-import com.taobao.weex.plus.WXAnalyzerDelegate;
 import com.taobao.weex.plus.constants.Constants;
 import com.taobao.weex.plus.https.HotRefreshManager;
 import com.taobao.weex.plus.https.WXHttpManager;

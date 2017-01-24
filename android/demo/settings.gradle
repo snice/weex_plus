@@ -1,3 +1,5 @@
 include ':app'
 include ":sdk"
 project(":sdk").projectDir=new File("../sdk")
+include ":zxing"
+project(":zxing").projectDir=new File("../zxing")

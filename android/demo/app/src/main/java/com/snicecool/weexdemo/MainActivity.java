@@ -1,5 +1,6 @@
 package com.snicecool.weexdemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -13,7 +14,7 @@ import com.taobao.weex.common.WXRenderStrategy;
 public class MainActivity extends AppCompatActivity implements IWXRenderListener {
 
     WXSDKInstance mWXSDKInstance;
-//    final static String START_PAGE = "https://www.zhuzhe.wang/examples/build/vue/index.js";
+    //    final static String START_PAGE = "https://www.zhuzhe.wang/examples/build/vue/index.js";
     final static String START_PAGE = "https://www.zhuzhe.wang/examples/mobile/index.js";
 
     @Override
@@ -56,6 +57,9 @@ public class MainActivity extends AppCompatActivity implements IWXRenderListener
         switch (item.getItemId()) {
             case R.id.refresh:
                 mWXSDKInstance.renderByUrl("Vue首页", START_PAGE, null, null, WXRenderStrategy.APPEND_ASYNC);
+                break;
+            case R.id.scan:
+                startActivity(new Intent(this, ScanActivity.class));
                 break;
         }
         return true;

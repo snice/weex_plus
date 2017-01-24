@@ -56,14 +56,14 @@
       },
       push: function () {
         var params = {
-          'url':  this.baseURL + 'vue/components/navigator.js?test=1',
+          'url':  this.baseURL + 'components/navigator.js?test=1',
           'animated' : 'true',
         }
         navigator.push(params, function () {});
       },
       pop: function () {
         var params = {
-          'url':  this.baseURL + 'vue/components/navigator.js?test=1',
+          'url':  this.baseURL + 'components/navigator.js?test=1',
           'animated' : 'true',
         }
         navigator.pop(params, function () {});
