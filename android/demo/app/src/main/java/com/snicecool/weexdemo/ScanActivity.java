@@ -1,9 +1,11 @@
 package com.snicecool.weexdemo;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,10 +16,13 @@ import com.google.zxing.Result;
 import cn.avcon.zxing.CustomViewFinderView;
 import me.dm7.barcodescanner.core.IViewFinder;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.RuntimePermissions;
 
 import static com.taobao.weex.plus.module.WXEventModule.WEEX_ACTION;
 import static com.taobao.weex.plus.module.WXEventModule.WEEX_CATEGORY;
 
+@RuntimePermissions
 public class ScanActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     ZXingScannerView mScannerView;
     FrameLayout flZxingContainer;
@@ -25,6 +30,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ScanActivityPermissionsDispatcher.permissionCameraWithCheck(this);
         setContentView(R.layout.activity_scan);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -68,5 +74,15 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         intent.addCategory(WEEX_CATEGORY);
         startActivity(intent);
         finish();
+    }
+
+    @NeedsPermission(Manifest.permission.CAMERA)
+    void permissionCamera() {
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        ScanActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 }

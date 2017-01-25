@@ -33,6 +33,7 @@
             android:name=".ScanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".FragmentActivity"></activity>
     </application>
 
 </manifest>

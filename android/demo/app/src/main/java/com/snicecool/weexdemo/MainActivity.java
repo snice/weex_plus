@@ -61,6 +61,9 @@ public class MainActivity extends AppCompatActivity implements IWXRenderListener
             case R.id.scan:
                 startActivity(new Intent(this, ScanActivity.class));
                 break;
+            case R.id.fragment:
+                startActivity(new Intent(this, FragmentActivity.class));
+                break;
         }
         return true;
     }
