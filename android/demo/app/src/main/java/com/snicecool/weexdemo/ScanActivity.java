@@ -9,9 +9,13 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.google.zxing.Result;
+import com.taobao.weex.WXEnvironment;
+import com.taobao.weex.WXSDKEngine;
 
 import cn.avcon.zxing.CustomViewFinderView;
 import me.dm7.barcodescanner.core.IViewFinder;
@@ -68,12 +72,33 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
 
     @Override
     public void handleResult(Result rawResult) {
-        String result = rawResult.getText();
-        Uri uri = Uri.parse(result);
-        Intent intent = new Intent(WEEX_ACTION, uri);
-        intent.addCategory(WEEX_CATEGORY);
-        startActivity(intent);
-        finish();
+        String code = rawResult.getText();
+        if (!TextUtils.isEmpty(code)) {
+            Uri uri = Uri.parse(code);
+            if (uri.getPath().contains("dynamic/replace")) {
+                Intent intent = new Intent("weex.intent.action.dynamic", uri);
+                intent.addCategory("weex.intent.category.dynamic");
+                startActivity(intent);
+                finish();
+            } else if (uri.getQueryParameterNames().contains("_wx_devtool")) {
+                WXEnvironment.sRemoteDebugProxyUrl = uri.getQueryParameter("_wx_devtool");
+                WXSDKEngine.reload();
+                Toast.makeText(this, "devtool", Toast.LENGTH_SHORT).show();
+                finish();
+                return;
+            } else if (code.contains("_wx_debug")) {
+                uri = Uri.parse(code);
+                String debug_url = uri.getQueryParameter("_wx_debug");
+                WXSDKEngine.switchDebugModel(true, debug_url);
+                finish();
+            } else {
+                Toast.makeText(this, rawResult.getText(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(WEEX_ACTION, uri);
+                intent.addCategory(WEEX_CATEGORY);
+                startActivity(intent);
+                finish();
+            }
+        }
     }
 
     @NeedsPermission(Manifest.permission.CAMERA)

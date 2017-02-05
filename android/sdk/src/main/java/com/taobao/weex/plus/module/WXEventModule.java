@@ -5,7 +5,11 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import com.taobao.weex.annotation.JSMethod;
+import com.taobao.weex.bridge.JSCallback;
 import com.taobao.weex.common.WXModule;
+import com.taobao.weex.plus.permissions.ICamera;
+import com.taobao.weex.plus.permissions.INeedPermission;
+import com.taobao.weex.plus.permissions.Model;
 
 
 public class WXEventModule extends WXModule {
@@ -35,6 +39,35 @@ public class WXEventModule extends WXModule {
 
         if (mWXSDKInstance.checkModuleEventRegistered("event", this)) {
             mWXSDKInstance.fireModuleEvent("event", this, null);
+        }
+    }
+
+    @JSMethod(uiThread = true)
+    public void requestModel(String model, JSCallback success) {
+        if (TextUtils.isEmpty(model))
+            return;
+        if (mWXSDKInstance.getContext() instanceof INeedPermission) {
+            INeedPermission needPermission = (INeedPermission) mWXSDKInstance.getContext();
+            if (needPermission.isAuth(model, success))
+                done(model, success);
+            else
+                request(model);
+        }
+    }
+
+    private void request(String model) {
+        switch (model) {
+            case Model.CAMERA:
+                ((ICamera) mWXSDKInstance.getContext()).requestCamera();
+                break;
+        }
+    }
+
+    private void done(String model, JSCallback jsCallback) {
+        switch (model) {
+            case Model.CAMERA:
+                ((ICamera) mWXSDKInstance.getContext()).doneCamera(jsCallback);
+                break;
         }
     }
 }

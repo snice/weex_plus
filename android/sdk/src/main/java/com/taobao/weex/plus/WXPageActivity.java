@@ -1,5 +1,6 @@
 package com.taobao.weex.plus;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -31,6 +32,7 @@ import com.taobao.weex.RenderContainer;
 import com.taobao.weex.WXSDKEngine;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.appfram.navigator.IActivityNavBarSetter;
+import com.taobao.weex.bridge.JSCallback;
 import com.taobao.weex.common.IWXDebugProxy;
 import com.taobao.weex.common.WXRenderStrategy;
 import com.taobao.weex.plus.constants.Constants;
@@ -38,6 +40,10 @@ import com.taobao.weex.plus.https.HotRefreshManager;
 import com.taobao.weex.plus.https.WXHttpManager;
 import com.taobao.weex.plus.https.WXHttpTask;
 import com.taobao.weex.plus.https.WXRequestListener;
+import com.taobao.weex.plus.permissions.ICamera;
+import com.taobao.weex.plus.permissions.INeedPermission;
+import com.taobao.weex.plus.permissions.Model;
+import com.taobao.weex.plus.permissions.service.CameraService;
 import com.taobao.weex.plus.util.ScreenUtil;
 import com.taobao.weex.ui.component.NestedContainer;
 import com.taobao.weex.utils.WXFileUtils;
@@ -49,8 +55,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.PermissionUtils;
+import permissions.dispatcher.RuntimePermissions;
 
-public class WXPageActivity extends AppCompatActivity implements IWXRenderListener, Handler.Callback, WXSDKInstance.NestedInstanceInterceptor {
+
+@RuntimePermissions
+public class WXPageActivity extends AppCompatActivity implements IWXRenderListener, Handler.Callback, WXSDKInstance.NestedInstanceInterceptor, INeedPermission, ICamera {
 
     private static final String TAG = "WXPageActivity";
     public static final String WXPAGE = "wxpage";
@@ -63,6 +74,10 @@ public class WXPageActivity extends AppCompatActivity implements IWXRenderListen
     private Uri mUri;
     private HashMap mConfigMap = new HashMap<String, Object>();
 
+    String requestModel;
+    JSCallback jsCallback;
+    CameraService cameraService;
+
     @Override
     public void onCreateNestInstance(WXSDKInstance instance, NestedContainer container) {
         Log.d(TAG, "Nested Instance created.");
@@ -73,6 +88,7 @@ public class WXPageActivity extends AppCompatActivity implements IWXRenderListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        cameraService = new CameraService(this);
         setContentView(R.layout.activity_wxpage);
         setCurrentWxPageActivity(this);
         WXSDKEngine.setActivityNavBarSetter(new NavigatorAdapter());
@@ -295,6 +311,27 @@ public class WXPageActivity extends AppCompatActivity implements IWXRenderListen
         if (mInstance != null) {
             mInstance.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+        WXPageActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+        onRequestModelResult(grantResults);
+    }
+
+    private void onRequestModelResult(@NonNull int[] grantResults) {
+        boolean isGrant = true;
+        for (int result : grantResults) {
+            if (result == -1) {
+                isGrant = false;
+                break;
+            }
+        }
+        if (isGrant) {
+            switch (requestModel) {
+                case Model.CAMERA:
+                    cameraService.done(jsCallback);
+                    break;
+            }
+        } else {
+            Toast.makeText(this, "授权失败", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -302,6 +339,13 @@ public class WXPageActivity extends AppCompatActivity implements IWXRenderListen
         super.onActivityResult(requestCode, resultCode, data);
         if (mInstance != null) {
             mInstance.onActivityResult(requestCode, resultCode, data);
+        }
+        if (TextUtils.isEmpty(requestModel))
+            return;
+        switch (requestModel) {
+            case Model.CAMERA:
+                cameraService.onActivityResult(requestCode, resultCode, data);
+                break;
         }
     }
 
@@ -499,6 +543,44 @@ public class WXPageActivity extends AppCompatActivity implements IWXRenderListen
             return false;
         }
     }
+
+    //////// permission start
+    @NeedsPermission({Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE})
+    void needCamera() {
+    }
+
+    @Override
+    public void requestCamera() {
+        WXPageActivityPermissionsDispatcher.needCameraWithCheck(this);
+    }
+
+    @Override
+    public void doneCamera(JSCallback jsCallback) {
+        switch (requestModel) {
+            case Model.CAMERA:
+                WXLogUtils.d("===doneCamera");
+                cameraService.done(jsCallback);
+                break;
+        }
+    }
+
+    @Override
+    public boolean isAuth(String model, JSCallback success) {
+        if (TextUtils.isEmpty(model))
+            return true;
+        requestModel = model;
+        jsCallback = success;
+        boolean isNeed = false;
+        switch (model) {
+            case Model.CAMERA:
+                isNeed = PermissionUtils.hasSelfPermissions(this, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                break;
+        }
+        return isNeed;
+    }
+
+    //////// permission end
+
 
     public class RefreshBroadcastReceiver extends BroadcastReceiver {
         @Override

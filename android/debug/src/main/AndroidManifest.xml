@@ -1,0 +1,58 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.taobao.weex.debug">
+
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="23"
+        tools:overrideLibrary="com.taobao.android.dexposed,com.taobao.weex.debug" />
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
+    <application android:allowBackup="false">
+        <activity
+            android:name="com.taobao.prettyfish.pref.localdata.DataFileListActivity"
+            android:exported="false"
+            android:icon="@drawable/prettyfish_icon_perf"
+            android:label="@string/prettyfish_datalist_title"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Holo.Light.DarkActionBar"></activity>
+        <activity
+            android:name="com.taobao.prettyfish.pref.localdata.DataChartActivity"
+            android:exported="false"
+            android:icon="@drawable/prettyfish_icon_perf"
+            android:label="@string/prettyfish_datachart_title"
+            android:theme="@android:style/Theme.Holo.Light.DarkActionBar"></activity>
+        <activity
+            android:name="com.taobao.weex.WXDebugActivity"
+            android:label="@string/title_activity_dynamic"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="weex.intent.action.dynamic" />
+
+                <category android:name="weex.intent.category.dynamic" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="weex-remote-debugger"
+                    android:path="/dynamic/replace/framework"
+                    android:scheme="http" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="weex.intent.action.dynamic" />
+
+                <category android:name="weex.intent.category.dynamic" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="weex-remote-debugger"
+                    android:path="/dynamic/replace/bundle"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
