@@ -11,11 +11,13 @@ import com.taobao.weex.plus.permissions.ICamera;
 import com.taobao.weex.plus.permissions.INeedPermission;
 import com.taobao.weex.plus.permissions.Model;
 
+import java.io.File;
+
 
 public class WXEventModule extends WXModule {
 
-    public static final String WEEX_CATEGORY = "com.taobao.android.intent.category.WEEX";
-    public static final String WEEX_ACTION = "com.taobao.android.intent.action.WEEX";
+    public static final String WEEX_CATEGORY = "com.snicesoft.android.intent.category.WEEX";
+    public static final String WEEX_ACTION = "com.snicesoft.android.intent.action.WEEX";
 
 
     @JSMethod(uiThread = true)
@@ -40,6 +42,13 @@ public class WXEventModule extends WXModule {
         if (mWXSDKInstance.checkModuleEventRegistered("event", this)) {
             mWXSDKInstance.fireModuleEvent("event", this, null);
         }
+    }
+
+    @JSMethod(uiThread = true)
+    public void delFile(String path) {
+        File file = new File(path);
+        if (file.exists())
+            file.delete();
     }
 
     @JSMethod(uiThread = true)

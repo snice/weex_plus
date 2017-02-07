@@ -13,6 +13,9 @@ class WXEventModule : NSObject, WXEventModuleProtocol{
     static func wx_export_method_openURL() -> String{
         return NSStringFromSelector(#selector(self.openURL(_:)))
     }
+    static func wx_export_method_requestModel() -> String{
+        return NSStringFromSelector(#selector(self.requestModel(_: callback:)))
+    }
     func openURL(_ url: String!) {
         var newURL:String! = url;
         if (url.hasPrefix("//")) {
@@ -24,5 +27,8 @@ class WXEventModule : NSObject, WXEventModuleProtocol{
         let controller = WeexViewController();
         controller.openUrl = newURL
         weexInstance?.viewController.navigationController?.pushViewController(controller, animated: true);
+    }
+    func requestModel(_ model: String!, callback: WXModuleCallback!) {
+        NSLog("==model:%@", model)
     }
 }
