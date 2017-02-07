@@ -1,5 +1,7 @@
 include ':app'
 include ":sdk"
-project(":sdk").projectDir=new File("../sdk")
+project(":sdk").projectDir = new File("../sdk")
+include ":debug"
+project(":debug").projectDir = new File("../debug")
 include ":zxing"
-project(":zxing").projectDir=new File("../zxing")
+project(":zxing").projectDir = new File("../zxing")

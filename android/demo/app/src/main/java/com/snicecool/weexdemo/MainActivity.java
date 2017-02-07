@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity implements IWXRenderListener
     WXSDKInstance mWXSDKInstance;
     //    final static String START_PAGE = "https://www.zhuzhe.wang/examples/build/vue/index.js";
     final static String START_PAGE = "https://www.zhuzhe.wang/examples/mobile/index.js";
+//    final static String START_PAGE = "http://13.13.13.4:12580/examples/build/vue/index.js";
+//    final static String START_PAGE = "http://13.13.13.4:8080/dist/mobile/index.js";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

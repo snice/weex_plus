@@ -10,23 +10,31 @@ import com.taobao.weex.plus.adapter.ImageAdapter;
 import com.taobao.weex.plus.module.WXEventModule;
 
 public class WXApplication extends Application {
+    final static String DEBUG_SERVER_HOST = "13.13.13.4";
+    final static boolean isDebug = false;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        InitConfig config = new InitConfig.Builder().setImgAdapter(new ImageAdapter()).build();
-        WXSDKEngine.initialize(this, config);
+        InitConfig.Builder builder = new InitConfig.Builder().setImgAdapter(new ImageAdapter());
+        if (isDebug) {
+            initDebugEnvironment(true, true, DEBUG_SERVER_HOST);
+//            builder.setDebugAdapter(new com.taobao.weex.PlayDebugAdapter());
+//            builder.setWebSocketAdapterFactory(new com.taobao.weex.DefaultWebSocketAdapterFactory());
+        }
+        WXSDKEngine.initialize(this, builder.build());
+
 
         try {
             WXSDKEngine.registerModule("event", WXEventModule.class);
         } catch (WXException e) {
             e.printStackTrace();
         }
-//        initDebugEnvironment(true, "13.13.13.4");
     }
 
-    private void initDebugEnvironment(boolean enable, String host) {
-        WXEnvironment.sRemoteDebugMode = enable;
+    private void initDebugEnvironment(boolean connectable, boolean debuggable, String host) {
+        WXEnvironment.sDebugServerConnectable = connectable;
+        WXEnvironment.sRemoteDebugMode = debuggable;
         WXEnvironment.sRemoteDebugProxyUrl = "ws://" + host + ":8088/debugProxy/native";
     }
 }

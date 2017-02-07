@@ -1,5 +1,5 @@
 <template>
-  <example-list :items="items" dir="examples"></example-list>
+  <example-list :items="items" dir="dist"></example-list>
 </template>
 
 <script>
@@ -8,6 +8,7 @@
       return {
         items: [
           // common
+          {name: 'syntax/piano', title: 'Piano'},
           {name: 'syntax/hello-world', title: 'Hello World'},
           {name: 'style/index', title: 'Common Style'},
           {name: 'animation', title: 'Animation'},
