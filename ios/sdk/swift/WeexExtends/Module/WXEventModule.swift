@@ -30,5 +30,10 @@ class WXEventModule : NSObject, WXEventModuleProtocol{
     }
     func requestModel(_ model: String!, callback: WXModuleCallback!) {
         NSLog("==model:%@", model)
+        if(model == "camera"){
+            if((callback) != nil){
+                callback(["result":"WX_FAILED","message":"暂不支持"])
+            }
+        }
     }
 }
